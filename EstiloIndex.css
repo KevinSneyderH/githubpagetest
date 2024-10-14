@@ -96,6 +96,37 @@ body {
 /* -------------------
 RESPONSIVE STYLES
 ------------------- */
+@media (max-width: 1080px) {
+    
+    .productos-container {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Ajusta el tamaño mínimo de las tarjetas */
+        gap: 15px;
+    }
+
+    .producto {
+        padding: 10px;
+    }
+
+    .producto h2 {
+        font-size: 1.2rem; /* Ligeramente más grande para mejor legibilidad */
+    }
+
+    .producto img {
+        max-height: 140px; /* Un poco más alto para que la imagen sea más visible */
+    }
+
+    .pagination button {
+        padding: 6px 10px;
+        font-size: 1rem; /* Aumentar el tamaño de la fuente de la paginación */
+    }
+
+    .whatsapp-btn img {
+        width: 50px;
+        height: 50px;
+    }
+}
+
+
 @media (max-width: 768px) {
     /* Para pantallas medianas (tabletas y móviles grandes) */
     .productos-container {
@@ -161,4 +192,41 @@ RESPONSIVE STYLES
         height: 40px;
     }
 }
+
+/* Estilos para el menú desplegable */
+label {
+    font-size: 1.1em;
+    margin-right: 10px;
+    color: #333;
+}
+
+select {
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+    transition: border-color 0.3s ease;
+    margin-bottom: 20px; /* Espacio debajo del menú */
+}
+
+/* Efecto de foco en el menú desplegable */
+select:focus {
+    border-color: #3498db; /* Cambia el borde al enfocarse */
+    outline: none; /* Quitar el contorno por defecto */
+}
+
+/* Responsividad para dispositivos pequeños */
+@media (max-width: 768px) {
+    label {
+        font-size: 0.9em; /* Tamaño de fuente más pequeño */
+        margin-bottom: 10px; /* Espacio debajo en móviles */
+        display: block; /* Coloca la etiqueta en una nueva línea */
+    }
+
+    select {
+        width: 100%; /* Ocupa todo el ancho en móviles */
+    }
+}
+
 

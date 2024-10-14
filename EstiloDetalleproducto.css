@@ -89,6 +89,8 @@ button:hover {
 /* -------------------
 RESPONSIVE STYLES
 ------------------- */
+
+
 @media (max-width: 768px) {
     /* Para pantallas medianas (tabletas y móviles grandes) */
     #detalle-producto {
