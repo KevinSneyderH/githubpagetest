@@ -4,73 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Productos de Contentful en Tarjetas</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-        }
-        .productos-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            max-width: 1200px;
-            margin: 20px auto;
-        }
-        .producto {
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            padding: 10px;
-            text-align: center;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
-        }
-        .producto img {
-            width: 100%;
-            max-height: 150px;
-            object-fit: contain;
-            border-radius: 10px;
-        }
-        .producto h2 {
-            font-size: 1.2rem;
-            margin: 10px 0;
-        }
-        .producto button {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 10px;
-            cursor: pointer;
-            border-radius: 5px;
-            width: 100%;
-            transition: background-color 0.3s ease;
-        }
-        .producto button:hover {
-            background-color: #0056b3;
-        }
-        .producto:hover {
-            transform: translateY(-5px);
-        }
-        /* Estilos para la paginación */
-        .pagination {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
-        }
-        .pagination button {
-            border: 1px solid #ddd;
-            padding: 5px 10px;
-            margin: 0 2px;
-            cursor: pointer;
-        }
-        .pagination button.active {
-            background-color: #007bff;
-            color: white;
-        }
-    </style>
+    <link rel="stylesheet" href="EstiloIndex.css">
 </head>
 <body>
     <h1>Listado de Productos</h1>
@@ -79,109 +13,14 @@
     <!-- Contenedor para los botones de paginación -->
     <div class="pagination" id="pagination"></div>
 
-    <script>
-        const spaceId = '1i3j56vtsp8s';  // Reemplaza con tu Space ID
-        const accessToken = 'sf2VQuRce-6ythMX4lQIJvPlyQB0vtx23D1IvYZhZ5o';  // Reemplaza con tu Access Token
-        const url = `https://cdn.contentful.com/spaces/${spaceId}/entries?access_token=${accessToken}&content_type=producto`;
+   
+        <div class="whatsapp-btn">
+            <a href="https://wa.me/3133391213" target="_blank">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/WhatsApp_icon.png" alt="Contactar por WhatsApp">
+            </a>
+        </div>
 
-        let currentPage = 1; // Página actual
-        const itemsPerPage = 6; // Número de productos por página
-        let totalPages; // Número total de páginas
-
-        // Función para obtener contenido de Contentful
-        async function getContentfulData(page = 1) {
-            try {
-                const response = await fetch(url);
-                const data = await response.json();
-
-                const products = data.items;
-                totalPages = Math.ceil(products.length / itemsPerPage); // Calcular el número total de páginas
-
-                // Mostrar los productos de la página seleccionada
-                displayProducts(products.slice((page - 1) * itemsPerPage, page * itemsPerPage));
-
-                // Crear los botones de paginación
-                createPaginationButtons();
-            } catch (error) {
-                console.error('Error al obtener los datos:', error);
-            }
-        }
-
-        // Función para mostrar los productos
-        async function displayProducts(products) {
-    const contentDiv = document.getElementById('content');
-    contentDiv.innerHTML = ''; // Limpiar el contenido anterior
-
-    for (const item of products) {
-        const productoId = item.sys.id;  // Obtener el ID del producto
-        const nombre = item.fields.nombre;
-        const descripcion = item.fields.descripcion;
-        const precio = item.fields.precio;
-        const imageId = item.fields.imagen.sys.id;
-        const imageUrl = await getImageUrl(imageId);
-
-        // Crear un div para cada producto
-        const productDiv = document.createElement('div');
-        productDiv.classList.add('producto');
-
-        // Agregar el contenido HTML
-        productDiv.innerHTML = `
-            <img src="${imageUrl}" alt="${nombre}" />
-            <h2>${nombre}</h2>
-            <p>${descripcion}</p>
-            <p>Precio: ${precio}</p>
-            <button onclick="window.location.href='detalle-producto.html?id=${productoId}'">Ver más</button>
-        `;
-        contentDiv.appendChild(productDiv);
-    }
-}
-
-        // Función para obtener la URL de la imagen a partir de su ID
-        async function getImageUrl(assetId) {
-            const assetUrl = `https://cdn.contentful.com/spaces/${spaceId}/assets/${assetId}?access_token=${accessToken}`;
-            const assetResponse = await fetch(assetUrl);
-            const assetData = await assetResponse.json();
-            return assetData.fields.file.url; // Devuelve la URL de la imagen
-        }
-
-        // Función para crear los botones de paginación
-        function createPaginationButtons() {
-            const paginationDiv = document.getElementById('pagination');
-            paginationDiv.innerHTML = ''; // Limpiar la paginación anterior
-
-            // Botón de anterior
-            const prevButton = document.createElement('button');
-            prevButton.innerText = 'Anterior';
-            prevButton.onclick = () => changePage(currentPage - 1);
-            prevButton.disabled = currentPage === 1;
-            paginationDiv.appendChild(prevButton);
-
-            // Botones de número de página
-            for (let i = 1; i <= totalPages; i++) {
-                const pageButton = document.createElement('button');
-                pageButton.innerText = i;
-                pageButton.classList.toggle('active', currentPage === i);
-                pageButton.onclick = () => changePage(i);
-                paginationDiv.appendChild(pageButton);
-            }
-
-            // Botón de siguiente
-            const nextButton = document.createElement('button');
-            nextButton.innerText = 'Siguiente';
-            nextButton.onclick = () => changePage(currentPage + 1);
-            nextButton.disabled = currentPage === totalPages;
-            paginationDiv.appendChild(nextButton);
-        }
-
-        // Función para cambiar de página
-        function changePage(page) {
-            if (page < 1 || page > totalPages) return;
-            currentPage = page;
-            getContentfulData(currentPage);
-        }
-
-        // Llamada inicial
-        getContentfulData(currentPage);
-    </script>
+    <script src="algoritmoIndex.js"></script>
 </body>
+
 </html>
