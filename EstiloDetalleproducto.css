@@ -1,5 +1,5 @@
  /* Estilos generales */
- body {
+body {
     font-family: Arial, sans-serif;
     background-color: #f5f5f5;
     margin: 0;
@@ -19,7 +19,6 @@
     background-color: #ffffff;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     text-align: center;
-    font-family: Arial, sans-serif;
 }
 
 #detalle-producto img {
@@ -50,8 +49,10 @@
     color: #333;
 }
 
+/* Contenedor del botón */
 .contenedor-boton {
     text-align: center;
+    width: 100%; /* Aseguramos que ocupe todo el ancho */
 }
 
 button {
@@ -62,32 +63,17 @@ button {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-}
-
-button:hover {
-    background-color: #2980b9;
-}
-
-.contenedor-boton {
-    width: 15%; /* O el ancho que necesites */
-}
-
-button {
     display: block;
-    margin: 20px auto; /* Margen automático en los laterales */
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: #3498db;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+    margin: 20px auto;
+    width: 100%; /* Hacemos que el botón ocupe todo el ancho del contenedor */
+    max-width: 200px; /* Le damos un ancho máximo en pantallas grandes */
 }
 
 button:hover {
     background-color: #2980b9;
 }
 
+/* Botón de WhatsApp */
 .whatsapp-btn {
     position: fixed;
     bottom: 20px;
@@ -98,4 +84,64 @@ button:hover {
 .whatsapp-btn img {
     width: 60px;
     height: 60px;
+}
+
+/* -------------------
+RESPONSIVE STYLES
+------------------- */
+@media (max-width: 768px) {
+    /* Para pantallas medianas (tabletas y móviles grandes) */
+    #detalle-producto {
+        max-width: 100%; /* Ocupar todo el ancho disponible en pantallas más pequeñas */
+        padding: 15px;
+    }
+
+    #detalle-producto h1 {
+        font-size: 1.5em;
+    }
+
+    #detalle-producto p {
+        font-size: 0.9em;
+    }
+
+    button {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
+
+    .whatsapp-btn img {
+        width: 50px;
+        height: 50px;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Para pantallas pequeñas (móviles) */
+    body {
+        padding: 10px;
+    }
+
+    #detalle-producto {
+        max-width: 100%;
+        padding: 10px;
+    }
+
+    #detalle-producto h1 {
+        font-size: 1.2em;
+    }
+
+    #detalle-producto p {
+        font-size: 0.8em;
+    }
+
+    button {
+        font-size: 14px;
+        padding: 8px 16px;
+        max-width: 100%; /* En pantallas muy pequeñas, el botón será de ancho completo */
+    }
+
+    .whatsapp-btn img {
+        width: 40px;
+        height: 40px;
+    }
 }
