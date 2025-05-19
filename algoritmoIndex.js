@@ -87,7 +87,7 @@ function filterByCategory() {
 
 
 async function getCategoriaValoresManagement() {
-    const url = 'https://api.contentful.com/spaces/1i3j56vtsp8s/content_types/producto';
+    const url = 'https://api.contentful.com/spaces/${spaceId}/content_types/producto';
     const response = await fetch(url, {
         headers: {
             'Authorization': 'Bearer CFPAT-rEErDkRL-Rm8mymINTzNiWIQjZgERmDOUcvhu3F3SDA' // Pon aquí tu token de management
