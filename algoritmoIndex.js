@@ -6,25 +6,7 @@ let currentPage = 1; // Página actual
 const itemsPerPage = 10; // Número de productos por página
 let totalPages; // Número total de páginas
 
-// Función para obtener contenido de Contentful
-async function getContentfulData(page = 1, category = '') {
-    try {
-        const categoryFilter = category ? `&fields.categoria[match]=${category}` : '';
-        const response = await fetch(`${url}${categoryFilter}`);
-        const data = await response.json();
 
-        const products = data.items;
-        totalPages = Math.ceil(products.length / itemsPerPage); // Calcular el número total de páginas
-
-        // Mostrar los productos de la página seleccionada
-        displayProducts(products.slice((page - 1) * itemsPerPage, page * itemsPerPage));
-
-        // Crear los botones de paginación
-        createPaginationButtons();
-    } catch (error) {
-        console.error('Error al obtener los datos:', error);
-    }
-}
 
 // Función para mostrar los productos
 async function displayProducts(products) {
@@ -92,45 +74,64 @@ function createPaginationButtons() {
 function changePage(page) {
     if (page < 1 || page > totalPages) return;
     currentPage = page;
-    const selectedCategory = document.getElementById('categoryFilter').value; // Obtener la categoría seleccionada
-    getContentfulData(currentPage, selectedCategory);
-}
-
-// Función para filtrar por categoría
-function filterByCategory() {
     const selectedCategory = document.getElementById('categoryFilter').value;
-    currentPage = 1; // Reiniciar a la primera página al filtrar
     getContentfulData(currentPage, selectedCategory);
 }
 
-// ...existing code...
-
-// Función para obtener categorías desde Contentful
-async function getCategorias() {
-    const urlCategorias = `https://cdn.contentful.com/spaces/${spaceId}/entries?access_token=${accessToken}&content_type=categoria`;
-    try {
-        const response = await fetch(urlCategorias);
-        const data = await response.json();
-        return data.items.map(item => item.fields.nombre); // Ajusta si tu campo es diferente
-    } catch (error) {
-        console.error('Error al obtener las categorías:', error);
-        return [];
-    }
+// Si tienes una función filterByCategory, debe hacer lo mismo:
+function filterByCategory() {
+    currentPage = 1;
+    const selectedCategory = document.getElementById('categoryFilter').value;
+    getContentfulData(currentPage, selectedCategory);
 }
 
-// Función para llenar el select de categorías
+
+async function getCategoriaValoresManagement() {
+    const url = 'https://api.contentful.com/spaces/1i3j56vtsp8s/content_types/producto';
+    const response = await fetch(url, {
+        headers: {
+            'Authorization': 'Bearer CFPAT-rEErDkRL-Rm8mymINTzNiWIQjZgERmDOUcvhu3F3SDA' // Pon aquí tu token de management
+        }
+    });
+    const data = await response.json();
+    const categoriaField = data.fields.find(f => f.id === 'categoria');
+    if (!categoriaField) return [];
+    const validation = categoriaField.validations.find(v => v.in);
+    return validation ? validation.in : [];
+}
+
 async function llenarSelectCategorias() {
-    const categorias = await getCategorias();
+    const categorias = await getCategoriaValoresManagement();
     const select = document.getElementById('categoryFilter');
-    categorias.forEach(nombre => {
+    categorias.forEach(cat => {
         const option = document.createElement('option');
-        option.value = nombre;
-        option.textContent = nombre;
+        option.value = cat;
+        option.textContent = cat;
         select.appendChild(option);
     });
 }
 
-// Llama a la función al cargar la página
+
+
+
+async function getContentfulData(page = 1, categoria = '') {
+    try {
+        const urlBase = `https://cdn.contentful.com/spaces/1i3j56vtsp8s/environments/master/entries?access_token=sf2VQuRce-6ythMX4lQIJvPlyQB0vtx23D1IvYZhZ5o&content_type=producto`;
+        const categoryFilter = categoria ? `&fields.categoria[match]=${encodeURIComponent(categoria)}` : '';
+        const response = await fetch(`${urlBase}${categoryFilter}`);
+        const data = await response.json();
+
+        const products = data.items;
+        totalPages = Math.ceil(products.length / itemsPerPage);
+
+        displayProducts(products.slice((page - 1) * itemsPerPage, page * itemsPerPage));
+        createPaginationButtons();
+    } catch (error) {
+        console.error('Error al obtener los datos:', error);
+    }
+}
+
+
 document.addEventListener('DOMContentLoaded', llenarSelectCategorias);
 
 // ...existing code...
