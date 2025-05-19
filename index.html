@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Productos de Contentful en Tarjetas</title>
     <link rel="stylesheet" href="EstiloIndex.css">
 </head>
+
 <body>
     <h1>Listado de Productos</h1>
 
@@ -13,22 +15,22 @@
     <label for="categoryFilter">Filtrar por categoría:</label>
     <select id="categoryFilter" onchange="filterByCategory()">
         <option value="">Todas las categorías</option>
-        <option value="botellas">Botellas</option>
-        <option value="placas">Placas</option>
-        <!-- Agrega más categorías según tus datos -->
+        <!-- Las opciones se llenarán dinámicamente -->
     </select>
 
     <div class="productos-container" id="content"></div>
-    
+
     <!-- Contenedor para los botones de paginación -->
     <div class="pagination" id="pagination"></div>
 
     <div class="whatsapp-btn">
         <a href="https://wa.me/3133391213" target="_blank">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/WhatsApp_icon.png" alt="Contactar por WhatsApp">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/WhatsApp_icon.png"
+                alt="Contactar por WhatsApp">
         </a>
     </div>
 
     <script src="algoritmoIndex.js"></script>
 </body>
+
 </html>

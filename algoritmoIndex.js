@@ -103,5 +103,37 @@ function filterByCategory() {
     getContentfulData(currentPage, selectedCategory);
 }
 
+// ...existing code...
+
+// Función para obtener categorías desde Contentful
+async function getCategorias() {
+    const urlCategorias = `https://cdn.contentful.com/spaces/${spaceId}/entries?access_token=${accessToken}&content_type=categoria`;
+    try {
+        const response = await fetch(urlCategorias);
+        const data = await response.json();
+        return data.items.map(item => item.fields.nombre); // Ajusta si tu campo es diferente
+    } catch (error) {
+        console.error('Error al obtener las categorías:', error);
+        return [];
+    }
+}
+
+// Función para llenar el select de categorías
+async function llenarSelectCategorias() {
+    const categorias = await getCategorias();
+    const select = document.getElementById('categoryFilter');
+    categorias.forEach(nombre => {
+        const option = document.createElement('option');
+        option.value = nombre;
+        option.textContent = nombre;
+        select.appendChild(option);
+    });
+}
+
+// Llama a la función al cargar la página
+document.addEventListener('DOMContentLoaded', llenarSelectCategorias);
+
+// ...existing code...
+
 // Llamada inicial
 getContentfulData(currentPage);
